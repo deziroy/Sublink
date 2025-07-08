@@ -2,77 +2,95 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Sublink - Paiement sécurisé</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #f8f9fa;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
       margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #f8f9fa, #e2e6ea);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
     }
-    .container {
-      background: #fff;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      width: 90%;
+
+    .card {
+      background: white;
+      padding: 25px 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
       max-width: 400px;
+      width: 90%;
       text-align: center;
     }
-    h2 {
+
+    h1 {
+      font-size: 24px;
       margin-bottom: 20px;
+      color: #222;
     }
+
     input, button {
       width: 100%;
       padding: 12px;
       margin: 10px 0;
       font-size: 16px;
-      border-radius: 6px;
+      border-radius: 8px;
       border: 1px solid #ccc;
+      box-sizing: border-box;
     }
+
     button {
-      background: #28a745;
+      background-color: #28a745;
       color: white;
       border: none;
-      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s ease;
     }
+
     button:hover {
-      background: #218838;
+      background-color: #218838;
     }
+
     .footer {
-      margin-top: 20px;
+      margin-top: 15px;
       font-size: 14px;
-      color: #555;
+      color: #666;
+    }
+
+    .error {
+      color: red;
+      font-size: 14px;
+      margin-top: 5px;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h2>Sublink - Paiement</h2>
+  <div class="card">
+    <h1>Sublink - Paiement</h1>
     <form onsubmit="return validerPaiement()">
-      <input type="text" placeholder="Numéro de carte (simulé)" required>
+      <input type="text" placeholder="Numéro de carte (ex: 1234 5678 9012 3456)" required>
       <input type="number" id="montant" placeholder="Montant (€)" required>
+      <div class="error" id="erreur"></div>
       <button type="submit">Payer maintenant</button>
     </form>
     <div class="footer">
-      Paiement sécurisé — sans frais
+      🔒 Paiement sécurisé — sans frais
     </div>
   </div>
 
   <script>
     function validerPaiement() {
-      const montant = document.getElementById('montant').value;
-      if (montant < 5) {
-        alert("Le montant minimum est de 5€.");
+      const montant = parseFloat(document.getElementById("montant").value);
+      const erreur = document.getElementById("erreur");
+      if (isNaN(montant) || montant < 5) {
+        erreur.textContent = "Le montant minimum est de 5 €.";
         return false;
-      } else {
-        alert("Paiement simulé accepté ✅");
-        return false; // empêcher l'envoi réel (simulation)
       }
+      erreur.textContent = "";
+      alert("✅ Paiement simulé accepté !");
+      return false; // Simulation, empêche l'envoi réel
     }
   </script>
 </body>
